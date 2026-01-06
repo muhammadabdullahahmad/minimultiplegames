@@ -33,7 +33,11 @@ fun HomeScreen(navController: NavController) {
         GameItem("Water Sort", NavRoutes.WaterSort.route, "🧪", Color(0xFF00BCD4)),
         GameItem("Tic Tac Toe", NavRoutes.TicTacToe.route, "⭕", Color(0xFF2196F3)),
         GameItem("Rolling Dice", NavRoutes.RollingDice.route, "🎲", Color(0xFF4CAF50)),
-        GameItem("Hangman", NavRoutes.Hangman.route, "🪢", Color(0xFF9C27B0))
+        GameItem("Hangman", NavRoutes.Hangman.route, "🪢", Color(0xFF9C27B0)),
+        GameItem("Memory", NavRoutes.MemoryGame.route, "🧠", Color(0xFF3F51B5)),
+        GameItem("2048", NavRoutes.Game2048.route, "🔢", Color(0xFFFF9800)),
+        GameItem("RPS", NavRoutes.RockPaperScissors.route, "✊", Color(0xFF673AB7)),
+        GameItem("Simon Says", NavRoutes.SimonSays.route, "🎨", Color(0xFFE91E63))
     )
 
     Scaffold(

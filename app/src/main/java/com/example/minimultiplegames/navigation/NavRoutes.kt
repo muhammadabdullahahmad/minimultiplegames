@@ -11,4 +11,8 @@ sealed class NavRoutes(val route: String) {
         fun createRoute(mode: String) = "snake_game/$mode"
     }
     object HighScores : NavRoutes("high_scores")
+    object MemoryGame : NavRoutes("memory_game")
+    object Game2048 : NavRoutes("game_2048")
+    object RockPaperScissors : NavRoutes("rock_paper_scissors")
+    object SimonSays : NavRoutes("simon_says")
 }

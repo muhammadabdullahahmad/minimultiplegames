@@ -4,9 +4,9 @@ package com.example.minimultiplegames.games
  * HANGMAN GAME - Instructions
  *
  * Difficulty Levels:
- * - EASY: 3 letter words, 10 attempts
- * - MEDIUM: 4-5 letter words, 7 attempts
- * - HARD: 6+ letter words, 5 attempts
+ * - EASY: 4-5 letter words, 7 attempts
+ * - MEDIUM: 5-6 letter words, 5 attempts
+ * - HARD: 7+ letter words, 4 attempts
  */
 
 import androidx.compose.foundation.Canvas
@@ -35,9 +35,9 @@ import androidx.navigation.NavController
 
 // Difficulty levels
 enum class Difficulty(val label: String, val emoji: String, val maxAttempts: Int, val color: Color) {
-    EASY("Easy", "😊", 10, Color(0xFF4CAF50)),
-    MEDIUM("Medium", "🤔", 7, Color(0xFFFF9800)),
-    HARD("Hard", "😈", 5, Color(0xFFF44336))
+    EASY("Easy", "😊", 7, Color(0xFF4CAF50)),
+    MEDIUM("Medium", "🤔", 5, Color(0xFFFF9800)),
+    HARD("Hard", "😈", 4, Color(0xFFF44336))
 }
 
 // Word categories with difficulty-based words
@@ -46,45 +46,129 @@ data class WordCategory(val name: String, val easyWords: List<String>, val mediu
 private val categories = listOf(
     WordCategory(
         "Animals",
-        easyWords = listOf("CAT", "DOG", "COW", "PIG", "HEN", "ANT", "BEE", "BAT", "OWL", "FOX"),
-        mediumWords = listOf("LION", "BEAR", "FROG", "DUCK", "FISH", "BIRD", "TIGER", "HORSE", "MOUSE", "SHEEP"),
-        hardWords = listOf("ELEPHANT", "GIRAFFE", "DOLPHIN", "PENGUIN", "BUTTERFLY", "CROCODILE", "KANGAROO", "SQUIRREL")
+        easyWords = listOf("LION", "BEAR", "FROG", "DUCK", "WOLF", "DEER", "GOAT", "CRAB", "MOTH", "SEAL"),
+        mediumWords = listOf("TIGER", "HORSE", "MOUSE", "SHEEP", "ZEBRA", "CAMEL", "WHALE", "EAGLE", "SHARK", "RHINO"),
+        hardWords = listOf("ELEPHANT", "GIRAFFE", "BUTTERFLY", "CROCODILE", "KANGAROO", "SQUIRREL", "CHIMPANZEE", "PORCUPINE", "ARMADILLO", "WOLVERINE")
     ),
     WordCategory(
         "Colors",
-        easyWords = listOf("RED", "BLUE", "PINK", "GOLD", "GRAY"),
-        mediumWords = listOf("GREEN", "BLACK", "WHITE", "BROWN", "CREAM"),
-        hardWords = listOf("ORANGE", "YELLOW", "PURPLE", "SILVER", "VIOLET", "MAGENTA")
+        easyWords = listOf("GREEN", "BLACK", "WHITE", "BROWN", "CREAM", "BEIGE", "CORAL"),
+        mediumWords = listOf("ORANGE", "YELLOW", "PURPLE", "SILVER", "VIOLET", "INDIGO", "BRONZE"),
+        hardWords = listOf("MAGENTA", "TURQUOISE", "BURGUNDY", "LAVENDER", "VERMILION", "CHARTREUSE", "PERIWINKLE")
     ),
     WordCategory(
         "Fruits",
-        easyWords = listOf("FIG", "PEAR", "PLUM", "KIWI", "LIME"),
-        mediumWords = listOf("APPLE", "GRAPE", "MANGO", "PEACH", "LEMON", "MELON", "BERRY"),
-        hardWords = listOf("BANANA", "CHERRY", "ORANGE", "PINEAPPLE", "STRAWBERRY", "WATERMELON")
+        easyWords = listOf("APPLE", "GRAPE", "MANGO", "PEACH", "LEMON", "MELON", "BERRY", "GUAVA"),
+        mediumWords = listOf("BANANA", "CHERRY", "ORANGE", "PAPAYA", "APRICOT", "COCONUT", "AVOCADO"),
+        hardWords = listOf("PINEAPPLE", "STRAWBERRY", "WATERMELON", "BLUEBERRY", "RASPBERRY", "TANGERINE", "POMEGRANATE", "PASSIONFRUIT")
     ),
     WordCategory(
         "Food",
-        easyWords = listOf("EGG", "PIE", "JAM", "HAM", "NUT", "PEA", "BUN", "ICE"),
-        mediumWords = listOf("CAKE", "PIZZA", "BREAD", "RICE", "SOUP", "MILK", "CANDY", "TOAST"),
-        hardWords = listOf("CHEESE", "COOKIE", "BURGER", "SANDWICH", "CHOCOLATE", "SPAGHETTI")
+        easyWords = listOf("PIZZA", "BREAD", "CANDY", "TOAST", "PASTA", "SALAD", "BACON", "JUICE"),
+        mediumWords = listOf("CHEESE", "COOKIE", "BURGER", "WAFFLE", "YOGURT", "CEREAL", "MUFFIN", "NOODLE"),
+        hardWords = listOf("SANDWICH", "CHOCOLATE", "SPAGHETTI", "CROISSANT", "HAMBURGER", "QUESADILLA", "BRUSCHETTA", "CASSEROLE")
     ),
     WordCategory(
         "Things",
-        easyWords = listOf("CAR", "BUS", "CUP", "BAG", "BOX", "BED", "PEN", "KEY", "TOY", "HAT"),
-        mediumWords = listOf("BALL", "BOOK", "CLOCK", "DOOR", "CHAIR", "TABLE", "LAMP", "PHONE"),
-        hardWords = listOf("COMPUTER", "KEYBOARD", "BICYCLE", "UMBRELLA", "BACKPACK", "TELEVISION")
+        easyWords = listOf("CLOCK", "CHAIR", "TABLE", "PHONE", "WATCH", "BRUSH", "KNIFE", "SPOON"),
+        mediumWords = listOf("CAMERA", "LAPTOP", "WALLET", "PILLOW", "MIRROR", "HAMMER", "BOTTLE", "BASKET"),
+        hardWords = listOf("COMPUTER", "KEYBOARD", "UMBRELLA", "BACKPACK", "TELEVISION", "MICROWAVE", "BINOCULARS", "CHANDELIER")
     ),
     WordCategory(
         "Nature",
-        easyWords = listOf("SUN", "SKY", "SEA", "MUD", "DEW", "FOG", "ICE", "BAY"),
-        mediumWords = listOf("RAIN", "SNOW", "WIND", "MOON", "LEAF", "ROCK", "TREE", "LAKE"),
-        hardWords = listOf("CLOUD", "RIVER", "OCEAN", "MOUNTAIN", "RAINBOW", "WATERFALL", "SUNSHINE")
+        easyWords = listOf("CLOUD", "RIVER", "OCEAN", "STORM", "BEACH", "PLANT", "GRASS", "STONE"),
+        mediumWords = listOf("FOREST", "ISLAND", "DESERT", "STREAM", "VALLEY", "JUNGLE", "MEADOW", "GLACIER"),
+        hardWords = listOf("MOUNTAIN", "RAINBOW", "WATERFALL", "SUNSHINE", "EARTHQUAKE", "HURRICANE", "AVALANCHE", "LIGHTNING", "VOLCANO")
     ),
     WordCategory(
         "Body",
-        easyWords = listOf("EYE", "EAR", "ARM", "LEG", "TOE", "LIP", "JAW", "RIB"),
-        mediumWords = listOf("HAND", "FOOT", "HEAD", "NOSE", "NECK", "HAIR", "FACE", "KNEE"),
-        hardWords = listOf("MOUTH", "FINGER", "SHOULDER", "STOMACH", "ELBOW", "TONGUE")
+        easyWords = listOf("HEART", "BRAIN", "SPINE", "THUMB", "ANKLE", "WRIST", "CHEEK", "TEETH"),
+        mediumWords = listOf("FINGER", "MUSCLE", "TONGUE", "THROAT", "KIDNEY", "TEMPLE", "NOSTRIL"),
+        hardWords = listOf("SHOULDER", "STOMACH", "EYEBROW", "KNUCKLE", "FOREHEAD", "SKELETON", "CARTILAGE", "COLLARBONE")
+    ),
+    WordCategory(
+        "Sports",
+        easyWords = listOf("GOLF", "SWIM", "SURF", "RACE", "KICK", "JUMP", "DIVE", "YOGA"),
+        mediumWords = listOf("SOCCER", "TENNIS", "HOCKEY", "BOXING", "KARATE", "ROWING", "ARCHER", "RUGBY"),
+        hardWords = listOf("BASEBALL", "FOOTBALL", "BASKETBALL", "VOLLEYBALL", "WRESTLING", "GYMNASTICS", "BADMINTON", "TRIATHLON")
+    ),
+    WordCategory(
+        "Music",
+        easyWords = listOf("DRUM", "BASS", "BEAT", "SONG", "TUNE", "NOTE", "JAZZ", "ROCK"),
+        mediumWords = listOf("GUITAR", "VIOLIN", "FLUTE", "PIANO", "CHORUS", "MELODY", "RHYTHM", "SINGER"),
+        hardWords = listOf("SYMPHONY", "ORCHESTRA", "SAXOPHONE", "XYLOPHONE", "HARMONICA", "ACCORDION", "TAMBOURINE", "CONDUCTOR")
+    ),
+    WordCategory(
+        "Countries",
+        easyWords = listOf("PERU", "CUBA", "IRAN", "IRAQ", "MALI", "FIJI", "CHAD", "OMAN"),
+        mediumWords = listOf("BRAZIL", "FRANCE", "CANADA", "MEXICO", "SWEDEN", "POLAND", "TURKEY", "GREECE"),
+        hardWords = listOf("AUSTRALIA", "ARGENTINA", "SINGAPORE", "INDONESIA", "SWITZERLAND", "NETHERLANDS", "MADAGASCAR", "BANGLADESH")
+    ),
+    WordCategory(
+        "Vehicles",
+        easyWords = listOf("BIKE", "BOAT", "JEEP", "TAXI", "TRAM", "CART", "SLED", "RAFT"),
+        mediumWords = listOf("TRUCK", "TRAIN", "PLANE", "YACHT", "FERRY", "CANOE", "SCOOTER", "ROCKET"),
+        hardWords = listOf("AIRPLANE", "SUBMARINE", "HELICOPTER", "AMBULANCE", "LIMOUSINE", "MOTORCYCLE", "HOVERCRAFT", "SPACECRAFT")
+    ),
+    WordCategory(
+        "Jobs",
+        easyWords = listOf("CHEF", "COOK", "MAID", "NURSE", "PILOT", "JUDGE", "CLERK", "GUARD"),
+        mediumWords = listOf("DOCTOR", "LAWYER", "ARTIST", "BANKER", "FARMER", "SINGER", "WRITER", "BARBER"),
+        hardWords = listOf("ENGINEER", "SCIENTIST", "ARCHITECT", "LIBRARIAN", "ACCOUNTANT", "ELECTRICIAN", "PHARMACIST", "POLITICIAN")
+    ),
+    WordCategory(
+        "Space",
+        easyWords = listOf("STAR", "MOON", "MARS", "VOID", "DUST", "RING", "COMET", "PROBE"),
+        mediumWords = listOf("PLANET", "SATURN", "NEBULA", "QUASAR", "ROCKET", "COSMOS", "CRATER", "METEOR"),
+        hardWords = listOf("ASTEROID", "UNIVERSE", "SATELLITE", "SUPERNOVA", "SPACESHIP", "MILKYWAY", "ASTRONAUT", "BLACKHOLE")
+    ),
+    WordCategory(
+        "Weather",
+        easyWords = listOf("RAIN", "SNOW", "WIND", "HAIL", "MIST", "SMOG", "GUST", "HEAT"),
+        mediumWords = listOf("STORM", "FROST", "FLOOD", "SLEET", "CLOUDY", "SUNNY", "BREEZE", "HUMID"),
+        hardWords = listOf("TORNADO", "BLIZZARD", "CYCLONE", "MONSOON", "DROUGHT", "FORECAST", "LIGHTNING", "THUNDERSTORM")
+    ),
+    WordCategory(
+        "Clothing",
+        easyWords = listOf("COAT", "SUIT", "VEST", "SOCK", "BOOT", "BELT", "GOWN", "ROBE"),
+        mediumWords = listOf("SHIRT", "PANTS", "DRESS", "SKIRT", "JEANS", "SCARF", "GLOVES", "SHORTS"),
+        hardWords = listOf("SWEATER", "CARDIGAN", "TROUSERS", "OVERCOAT", "RAINCOAT", "SWIMSUIT", "PAJAMAS", "TRACKSUIT")
+    ),
+    WordCategory(
+        "Buildings",
+        easyWords = listOf("BARN", "FORT", "SHED", "SHOP", "MALL", "DOME", "PIER", "ARCH"),
+        mediumWords = listOf("CASTLE", "CHURCH", "MUSEUM", "TEMPLE", "PALACE", "BRIDGE", "TUNNEL", "PRISON"),
+        hardWords = listOf("CATHEDRAL", "SKYSCRAPER", "HOSPITAL", "APARTMENT", "WAREHOUSE", "GYMNASIUM", "LIGHTHOUSE", "AUDITORIUM")
+    ),
+    WordCategory(
+        "Insects",
+        easyWords = listOf("FLEA", "GNAT", "WASP", "TICK", "MITE", "MOTH", "SLUG", "WORM"),
+        mediumWords = listOf("BEETLE", "SPIDER", "LOCUST", "MANTIS", "CICADA", "HORNET", "MAGGOT", "WEEVIL"),
+        hardWords = listOf("BUTTERFLY", "DRAGONFLY", "CENTIPEDE", "MILLIPEDE", "COCKROACH", "GRASSHOPPER", "CATERPILLAR", "BUMBLEBEE")
+    ),
+    WordCategory(
+        "Ocean",
+        easyWords = listOf("FISH", "WAVE", "REEF", "KELP", "TIDE", "COVE", "SURF", "SAND"),
+        mediumWords = listOf("CORAL", "SHARK", "SQUID", "SHRIMP", "OYSTER", "MUSSEL", "ANCHOR", "ISLAND"),
+        hardWords = listOf("JELLYFISH", "STARFISH", "SEAHORSE", "OCTOPUS", "PLANKTON", "BARRACUDA", "SWORDFISH", "SHIPWRECK")
+    ),
+    WordCategory(
+        "Mythology",
+        easyWords = listOf("ZEUS", "THOR", "ODIN", "LOKI", "MARS", "HERA", "ARES", "GAIA"),
+        mediumWords = listOf("APOLLO", "ATHENA", "HERMES", "MEDUSA", "DRAGON", "PHOENIX", "TITANS", "ORACLE"),
+        hardWords = listOf("HERCULES", "POSEIDON", "MINOTAUR", "CENTAUR", "CYCLOPS", "CERBERUS", "APHRODITE", "PROMETHEUS")
+    ),
+    WordCategory(
+        "Technology",
+        easyWords = listOf("WIFI", "CODE", "DATA", "CHIP", "BYTE", "LINK", "FILE", "ICON"),
+        mediumWords = listOf("SERVER", "ROUTER", "TABLET", "LAPTOP", "MOBILE", "CODING", "HACKER", "SCREEN"),
+        hardWords = listOf("SOFTWARE", "HARDWARE", "INTERNET", "DATABASE", "BLUETOOTH", "ALGORITHM", "ENCRYPTION", "CYBERSECURITY")
+    ),
+    WordCategory(
+        "Movies",
+        easyWords = listOf("FILM", "STAR", "HERO", "PLOT", "CAST", "CREW", "ROLE", "SHOT"),
+        mediumWords = listOf("ACTION", "COMEDY", "HORROR", "DRAMA", "SEQUEL", "POSTER", "CINEMA", "SCRIPT"),
+        hardWords = listOf("THRILLER", "DIRECTOR", "PREMIERE", "BLOCKBUSTER", "ANIMATION", "PRODUCER", "SOUNDTRACK", "DOCUMENTARY")
     )
 )
 
@@ -272,9 +356,9 @@ fun DifficultySelectionScreen(
                             )
                             Text(
                                 text = when (difficulty) {
-                                    Difficulty.EASY -> "3 letter words"
-                                    Difficulty.MEDIUM -> "4-5 letter words"
-                                    Difficulty.HARD -> "6+ letter words"
+                                    Difficulty.EASY -> "4-5 letter words"
+                                    Difficulty.MEDIUM -> "5-6 letter words"
+                                    Difficulty.HARD -> "7+ letter words"
                                 },
                                 fontSize = 14.sp,
                                 color = Color.White.copy(alpha = 0.8f)
@@ -524,10 +608,10 @@ fun HangmanFigure(wrongGuesses: Int, maxWrongGuesses: Int) {
 
         // Calculate which parts to show based on wrong guesses and max attempts
         val partsToShow = when (maxWrongGuesses) {
-            10 -> wrongGuesses // Easy: 10 parts for 10 attempts
-            7 -> (wrongGuesses * 10 / 7).coerceAtMost(10) // Medium: scale to 10 parts
-            5 -> (wrongGuesses * 10 / 5).coerceAtMost(10) // Hard: scale to 10 parts
-            else -> wrongGuesses
+            7 -> (wrongGuesses * 10 / 7).coerceAtMost(10) // Easy: scale to 10 parts
+            5 -> (wrongGuesses * 10 / 5).coerceAtMost(10) // Medium: scale to 10 parts
+            4 -> (wrongGuesses * 10 / 4).coerceAtMost(10) // Hard: scale to 10 parts
+            else -> (wrongGuesses * 10 / maxWrongGuesses).coerceAtMost(10)
         }
 
         // 1. Head

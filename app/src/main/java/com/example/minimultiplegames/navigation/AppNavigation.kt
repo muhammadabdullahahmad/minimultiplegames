@@ -11,6 +11,10 @@ import com.example.minimultiplegames.games.WaterSortScreen
 import com.example.minimultiplegames.games.TicTacToeScreen
 import com.example.minimultiplegames.games.RollingDiceScreen
 import com.example.minimultiplegames.games.HangmanScreen
+import com.example.minimultiplegames.games.MemoryGameScreen
+import com.example.minimultiplegames.games.Game2048Screen
+import com.example.minimultiplegames.games.RockPaperScissorsScreen
+import com.example.minimultiplegames.games.SimonSaysScreen
 import com.example.minimultiplegames.games.snake.SnakeMenuScreen
 import com.example.minimultiplegames.games.snake.SnakeGameScreen
 import com.example.minimultiplegames.games.snake.HighScoresScreen
@@ -48,6 +52,18 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable(NavRoutes.HighScores.route) {
             HighScoresScreen(navController = navController)
+        }
+        composable(NavRoutes.MemoryGame.route) {
+            MemoryGameScreen(navController = navController)
+        }
+        composable(NavRoutes.Game2048.route) {
+            Game2048Screen(navController = navController)
+        }
+        composable(NavRoutes.RockPaperScissors.route) {
+            RockPaperScissorsScreen(navController = navController)
+        }
+        composable(NavRoutes.SimonSays.route) {
+            SimonSaysScreen(navController = navController)
         }
     }
 }
